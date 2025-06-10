@@ -8,6 +8,8 @@ public record RoomRequestDto(
 		Integer number, 
 		@NotNull(message = "The type field not be null") 
 		String type, 
+		@NotNull(message = "The price field not be null") 
+		float price,
 		@NotNull(message = "The isOccupied field not be null") 
 		boolean isOccupied, 
 		@NotNull(message = "The isActived field not be null") 
@@ -17,6 +19,7 @@ public record RoomRequestDto(
 		return new RoomRequestDto(
 				room.getNumber(), 
 				room.getType().getDesc(),
+				room.getPrice().floatValue(),
 				room.isOccupied(),
 				room.isActived());
 	}

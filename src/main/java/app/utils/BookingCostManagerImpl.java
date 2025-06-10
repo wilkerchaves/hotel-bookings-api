@@ -12,7 +12,6 @@ public class BookingCostManagerImpl implements BookingCostManager {
 			var days = ChronoUnit.DAYS.between(booking.getCheckIn(), booking.getCheckOut());
 			var total = booking
 					.getRoom()
-					.getType()
 					.getPrice()
 					.multiply(BigDecimal.valueOf(days));
 			return total;

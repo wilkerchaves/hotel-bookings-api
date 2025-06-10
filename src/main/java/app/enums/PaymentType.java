@@ -2,6 +2,8 @@ package app.enums;
 
 import java.util.stream.Stream;
 
+import app.exceptions.InvalidEnumArgumentException;
+
 public enum PaymentType {
 
 	PIX(10, "Pix"), DINHEIRO(20, "Dinheiro"), DEBITO(30, "Débito"), CREDITO(40, "Crédito");
@@ -19,7 +21,7 @@ public enum PaymentType {
 				of(PaymentType.values())
 				.filter(type -> type.cod == cod)
 				.findFirst()
-				.orElseThrow(RuntimeException::new);
+				.orElseThrow(()-> new InvalidEnumArgumentException(String.format("The value %d is not valid to be a payment type.", cod)));
 	}
 
 	public static PaymentType convertToEnum(String desc) {
@@ -27,6 +29,6 @@ public enum PaymentType {
 				of(PaymentType.values())
 				.filter(type -> type.desc.equalsIgnoreCase(desc))
 				.findFirst()
-				.orElseThrow(RuntimeException::new);
+				.orElseThrow(()-> new InvalidEnumArgumentException(String.format("The value %s is not valid to be a payment type.", desc)));
 	}
 }

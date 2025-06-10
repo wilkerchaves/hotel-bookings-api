@@ -1,5 +1,6 @@
 package app.entities;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import app.dto.RoomRequestDto;
@@ -28,6 +29,8 @@ public class Room {
 	@Column(name = "room_type")
 	private RoomType type;
 
+	private BigDecimal price;
+
 	private boolean isOccupied;
 	private boolean isActived;
 
@@ -35,18 +38,20 @@ public class Room {
 
 	}
 
-	public Room(UUID id, Integer number, String type, boolean isOccupied, boolean isActived) {
+	public Room(UUID id, Integer number, String type, Float price, boolean isOccupied, boolean isActived) {
 		this.id = id;
 		this.number = number;
 		this.type = RoomType.convertToEnum(type);
+		this.setPrice(BigDecimal.valueOf(price));
 		this.isOccupied = isOccupied;
 		this.isActived = isActived;
 	}
 
-	public Room(UUID id, Integer number, int cod, boolean isOccupied, boolean isActived) {
+	public Room(UUID id, Integer number, int cod, Float price, boolean isOccupied, boolean isActived) {
 		this.id = id;
 		this.number = number;
 		this.type = RoomType.convertToEnum(cod);
+		this.setPrice(BigDecimal.valueOf(price));
 		this.isOccupied = isOccupied;
 		this.isActived = isActived;
 	}
@@ -75,6 +80,14 @@ public class Room {
 		this.type = type;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
 	public boolean isOccupied() {
 		return isOccupied;
 	}
@@ -92,7 +105,7 @@ public class Room {
 	}
 
 	public static Room getFromRequestDto(RoomRequestDto dto) {
-		return new Room(null, dto.number(), dto.type(), dto.isOccupied(), dto.isActived());
+		return new Room(null, dto.number(), dto.type(), dto.price(), dto.isOccupied(), dto.isActived());
 	}
 
 }

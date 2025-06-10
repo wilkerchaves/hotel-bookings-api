@@ -1,24 +1,12 @@
 package app.enums;
 
-import java.math.BigDecimal;
 import java.util.stream.Stream;
+
+import app.exceptions.InvalidEnumArgumentException;
 
 public enum RoomType {
 
-	VENTILADOR(1, "Ventilador") {
-		@Override
-		public BigDecimal getPrice() {
-			
-			return BigDecimal.valueOf(70);
-		}
-	},
-	AR_CONDICIONADO(2, "Ar") {
-		@Override
-		public BigDecimal getPrice() {
-			
-			return BigDecimal.valueOf(100);
-		}
-	};
+	VENTILADOR(1, "Ventilador"), AR_CONDICIONADO(2, "Ar");
 
 	private final int cod;
 	private final String desc;
@@ -30,15 +18,15 @@ public enum RoomType {
 
 	public static RoomType convertToEnum(int cod) {
 		return Stream.of(RoomType.values()).filter(type -> type.cod == cod).findFirst()
-				.orElseThrow(RuntimeException::new);
+				.orElseThrow(() -> new InvalidEnumArgumentException(
+						String.format("The value %d is not valid to be a room type.", cod)));
 	}
 
 	public static RoomType convertToEnum(String desc) {
 		return Stream.of(RoomType.values()).filter(type -> type.desc.equalsIgnoreCase(desc)).findFirst()
-				.orElseThrow(RuntimeException::new);
+				.orElseThrow(() -> new InvalidEnumArgumentException(
+						String.format("The value %s is not valid to be a room type.", desc)));
 	}
-	
-	
 
 	public int getCod() {
 		return cod;
@@ -47,7 +35,4 @@ public enum RoomType {
 	public String getDesc() {
 		return desc;
 	}
-
-	public abstract BigDecimal getPrice();
-
 }
